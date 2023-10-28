@@ -3,34 +3,30 @@
 #include <time.h>
 #include <stdbool.h>
 
-//  CODE WORKS DON'T DELETE
 void swap(int *a, int *b) {
     int temp = *a;
     *a = *b;
     *b = temp;
 }
 
-void shuffleArray(int arr[], int n) {
-    srand(time(NULL));
-    for (int i = n - 1; i > 0; i--) {
-        int j = rand() % (i + 1);
-        swap(&arr[i], &arr[j]);
-    }
-}
-
 int main() {
+    bool isNotMagical = true;
+    int count = 1;
+
     int array[3][3];
-    //int array[3][3] = {{4,9,2},{3,5,7},{8,1,6}}; //test code IS a magical square
-    //int array[3][3] = {{4,9,2},{3,5,7},{8,1,2}}; //test code is NOT  magical square
     int numbers[9];
+   
+    srand(time(NULL));
 
-    
-    for (int i = 0; i < 9; i++) { //don't delete
+    for (int i = 0; i < 9; i++) {
         numbers[i] = i + 1;
+    } 
+    while (isNotMagical) {    
+        for (int i = 9 - 1; i > 0; i--) {
+        int j = rand() % (i + 1);
+        swap(&numbers[i], &numbers[j]);
     }
-    
 
-    shuffleArray(numbers, 9);
     //populating 2D array with shuffled 1-9 numbers
     int k = 0;
     for (int i = 0; i < 3; i++) {
@@ -40,8 +36,8 @@ int main() {
         }
     }
     
-
-   //Print randomly populated 3x3 array
+    /*
+   //Print randomly populated 3x3 array // debug code
     for (int i = 0; i < 3; i++) {
         printf("[");
         for (int j = 0; j < 3; j++) {
@@ -51,7 +47,7 @@ int main() {
         printf("]");
         printf("\n");
     }
-    printf("\n");
+    */
 
     //check to see if 2D array is a Lo Shu Magic Square
     int sum = 0;
@@ -62,11 +58,11 @@ int main() {
             for (int j = 0; j < 3; j++) {
                  sum += array[i][j];
              }
-             printf("Horizontal Sum = %d \n", sum); //test code
+             //printf("Horizontal Sum = %d \n", sum); //debug code
              if (sum != 15) {
                  isEqualTo15 = false;
                  passed = false;
-                 printf("This 2D array is not a Lo Shu Magic Square on the horizontal sum.\n");
+                 //printf("This 2D array is not a Lo Shu Magic Square on the horizontal sum.\n"); // debug code
                  break;
              }
              else
@@ -79,11 +75,11 @@ int main() {
             for (int j = 0; j < 3; j++) {
                  sum += array[j][i];
              }
-             printf("Vertical Sum = %d \n", sum); //test code
+             //printf("Vertical Sum = %d \n", sum); //debug code
              if (sum != 15) {
                  isEqualTo15 = false;
                  passed = false;
-                 printf("This 2D array is not a Lo Shu Magic Square on the vertical sum.\n");
+                 //printf("This 2D array is not a Lo Shu Magic Square on the vertical sum.\n"); // debug code
                  break;
              }
              else
@@ -96,18 +92,14 @@ int main() {
             for (int i = 0; i < 3; i++) { //checking diagonal values
             for (int j = 0; j < 3; j++) {
                  if (i == j) {
-                    printf("i = %d\n", i); //test code
-                    printf("j = %d\n", j); //test code
                     sum += array[i][j];
-                    printf("Sum = %d \n", sum); //test code
-                 }
-                    
+                 }                    
              }             
             }
             if (sum != 15) {
                  isEqualTo15 = false;
                  passed = false;
-                 printf("This 2D array is not a Lo Shu Magic Square on the diagonal sum.\n");
+                 //printf("This 2D array is not a Lo Shu Magic Square on the diagonal sum.\n"); // debug code
                  break;
              }
              else 
@@ -115,10 +107,25 @@ int main() {
         }
 
         isEqualTo15 = false;
-        if (passed)
-            printf("This 2D array IS a Lo Shu Magic Square on the diagonal sum.\n"); //test code
-        
+        //printf("Number of squares generated: %d\n", count);
+        count++;
+        if (passed) {
+           // printf("This 2D array IS a Lo Shu Magic Square on the diagonal sum.\n"); // debug code
+            printf("The total number of squares generated and tested before success: %d\n", count);
+
+            for (int i = 0; i < 3; i++) {
+                printf("[");
+                for (int j = 0; j < 3; j++) {
+                    printf("%d", array[i][j]);
+                    if (j < 2) printf(" ");
+                }
+                printf("]");
+                printf("\n");
+            }
+            
+            isNotMagical = false; 
+        }        
     }
-    
+    }
     return 0;
 }
